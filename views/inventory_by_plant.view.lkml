@@ -2,7 +2,7 @@ view: inventory_by_plant {
   derived_table: {
     sql: select * from `@{GCP_PROJECT}.@{REPORTING_DATASET}.InventoryByPlant`;;
   }
-  
+
   fields_hidden_by_default: yes
 
   dimension: key {
@@ -185,7 +185,7 @@ view: inventory_by_plant {
     hidden: no
     link: {
       label: "Stock Value Details"
-      url: "/dashboards/cortex_sap_operational::stock_value_details?Company+Name={{ _filters['inventory_by_plant.company_text_butxt']| url_encode }}&Currency={{ _filters['inventory_by_plant.target_currency']| url_encode }}&Plant={{ _filters['inventory_by_plant.plant_name_name2']| url_encode }}&Material={{ _filters['inventory_by_plant.material_text_maktx']| url_encode }}&Country={{ _filters['inventory_by_plant.country_key_land1']| url_encode }}&Material+Type={{ _filters['inventory_by_plant.description_of_material_type_mtbez']| url_encode }}&Stock+Type={{ _filters['inventory_by_plant.stock_characteristic']| url_encode }}"
+      url: "/dashboards/cortex_sap_operational_v6::stock_value_details?Company+Name={{ _filters['inventory_by_plant.company_text_butxt']| url_encode }}&Currency={{ _filters['inventory_by_plant.target_currency']| url_encode }}&Plant={{ _filters['inventory_by_plant.plant_name_name2']| url_encode }}&Material={{ _filters['inventory_by_plant.material_text_maktx']| url_encode }}&Country={{ _filters['inventory_by_plant.country_key_land1']| url_encode }}&Material+Type={{ _filters['inventory_by_plant.description_of_material_type_mtbez']| url_encode }}&Stock+Type={{ _filters['inventory_by_plant.stock_characteristic']| url_encode }}"
     }
   }
 
@@ -348,7 +348,7 @@ view: inventory_by_plant {
     sql: ${TABLE}.WeekEndDate ;;
     hidden: no
   }
-  
+
   measure: count {
     type: count
     drill_fields: []
