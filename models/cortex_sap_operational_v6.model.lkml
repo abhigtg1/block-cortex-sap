@@ -224,10 +224,13 @@ explore: accounts_payable_v2 {
 
   sql_always_where:
     ${accounts_payable_v2.client_mandt} =  '{{ _user_attributes['client_id_rep'] }}'
-    AND
-    ${accounts_payable_v2.name1} IS NOT NULL
-    AND ${net_due_raw} IS NOT NULL
   ;;
+
+  # sql_always_where:
+    # ${accounts_payable_v2.client_mandt} =  '{{ _user_attributes['client_id_rep'] }}'
+    #     AND ${accounts_payable_v2.name1} IS NOT NULL
+    #     AND ${net_due_raw} IS NOT NULL
+    # ;;
 }
 
 explore: cash_discount_utilization {
