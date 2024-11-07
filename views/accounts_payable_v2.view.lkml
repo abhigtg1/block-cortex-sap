@@ -244,6 +244,7 @@ view: accounts_payable_v2 {
     type: count
     filters: [is_blocked_invoice: "Yes"]
     hidden: no
+    drill_fields: [std_drill*]
   }
 
   measure: blocked_invoice_amount {
@@ -275,6 +276,26 @@ view: accounts_payable_v2 {
     sql: ${TABLE}.IsParkedInvoice ;;
   }
 
+  dimension: parked_or_blocked {
+    type: string
+    sql:
+      CASE
+        WHEN ${is_blocked_invoice} THEN 'Blocked'
+        WHEN ${is_parked_invoice} THEN 'Parked'
+        ELSE 'No'
+      END
+    ;;
+    html:
+      {% if parked_or_blocked._value == "Blocked" %}
+        <span style="color: #c42a09; font-weight: bold;">{{ value }}</span>
+      {% elsif parked_or_blocked._value == "Parked" %}
+        <span style="color: #cf9001; font-weight: bold;">{{ value }}</span>
+      {% else %}
+        <span style="color: #008614; font-weight: bold;">{{ value }}</span>
+      {% endif %}
+    ;;
+  }
+
   measure: parked_invoice {
     group_label: "Counts"
     label: "Count Of Parked Invoices"
@@ -282,6 +303,7 @@ view: accounts_payable_v2 {
     type: count
     filters: [is_parked_invoice: "Yes"]
     hidden: no
+    drill_fields: [std_drill*]
   }
 
   measure: parked_invoice_amount {
@@ -843,7 +865,45 @@ view: accounts_payable_v2 {
     sql: ${potential_penalty_in_target_currency} ;;
     value_format_name: Greek_Number_Format
     hidden: no
+    drill_fields: [std_drill*]
   }
+
+  measure: sum_parked_potential_penalty_in_target_currency {
+    group_label: "Target Currency"
+    label: "Sum Parked Invoice Potential Penalty In Target Currency"
+    description: "This is the sum total potential monetary penalty amount for parked invoices in target currency."
+    type: sum
+    sql: ${potential_penalty_in_target_currency} ;;
+    filters: [is_parked_invoice: "Yes"]
+    value_format_name: Greek_Number_Format
+    hidden: no
+    drill_fields: [std_drill*]
+  }
+
+  measure: sum_blocked_potential_penalty_in_target_currency {
+    group_label: "Target Currency"
+    label: "Sum Blocked Invoice Potential Penalty In Target Currency"
+    description: "This is the sum total potential monetary penalty amount for blocked invoices in target currency."
+    type: sum
+    sql: ${potential_penalty_in_target_currency} ;;
+    filters: [is_blocked_invoice: "Yes"]
+    value_format_name: Greek_Number_Format
+    hidden: no
+    drill_fields: [std_drill*]
+  }
+
+  measure: sum_problem_potential_penalty_in_target_currency { # there are none
+    group_label: "Target Currency"
+    label: "Sum Problem Invoice Potential Penalty In Target Currency"
+    description: "This is the sum total potential monetary penalty amount for blocked and parked invoices in target currency."
+    type: sum
+    sql: ${potential_penalty_in_target_currency} ;;
+    filters: [parked_or_blocked: "Parked, Blocked"]
+    value_format_name: Greek_Number_Format
+    hidden: no
+    drill_fields: [std_drill*]
+  }
+
 
 
 
@@ -947,6 +1007,7 @@ view: accounts_payable_v2 {
     sql: ${upcoming_payments_in_target_currency} ;;
     value_format_name: Greek_Number_Format
     hidden: no
+    drill_fields: [std_drill*]
   }
 
 
@@ -988,6 +1049,8 @@ view: accounts_payable_v2 {
       , company_code_bukrs
       , amount_in_target_currency_dmbtr
       , target_currency_tcurr
+      , parked_or_blocked
+      , potential_penalty_in_target_currency
     ]
   }
 }
