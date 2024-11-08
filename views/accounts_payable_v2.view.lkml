@@ -411,7 +411,7 @@ view: accounts_payable_v2 {
     type: string
     sql: ${accounting_document_number_belnr} || '-' || ${number_of_line_item_within_accounting_document_buzei} ;;
     action: {
-      label: "Investigate This Item"
+      label: "Investigate Problem Invoice"
       url: "https://us-central1-bhabani-demo.cloudfunctions.net/looker_action_comments_function"
       icon_url: "https://sendgrid.com/favicon.ico"
       param: {
@@ -419,9 +419,22 @@ view: accounts_payable_v2 {
         value: "abc123456"
       }
       form_param: {
+        name: "Recipient"
+        type: select
+        default: "jrobbins"
+        option: {
+          name: "jrobbins"
+          label: "Jon Robbins"
+        }
+        option: {
+          name: "kramos"
+          label: "Kevin Ramos"
+        }
+      }
+      form_param: {
         name: "Subject"
         required: yes
-        default: "Please Investigate {{ value }}"
+        default: "Please Investigate {{ value }}❗"
       }
       form_param: {
         name: "Body"
@@ -430,7 +443,11 @@ view: accounts_payable_v2 {
         default:
         "Hi,
 
-          Would you please look into document {{ accounting_document_number_belnr._value }}, line number {{ number_of_line_item_within_accounting_document_buzei._value }}
+          Would you please look into document {{ accounting_document_number_belnr._value }}-{{ number_of_line_item_within_accounting_document_buzei._value }}.
+          It's currently {{ parked_or_blocked._rendered_value }} and has a Net Due date of {{ net_due_date._value }}.
+
+          Thanks,
+          {{ _user_attributes['name'] }}
           "
       }
     }
