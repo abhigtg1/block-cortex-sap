@@ -256,6 +256,7 @@ view: accounts_payable_v2 {
     sql: ${amount_in_local_currency_dmbtr} ;;
     value_format_name: Greek_Number_Format
     hidden: no
+    drill_fields: [std_drill*]
   }
 
 
@@ -268,6 +269,7 @@ view: accounts_payable_v2 {
     sql: ${amount_in_target_currency_dmbtr};;
     value_format_name: Greek_Number_Format
     hidden: no
+    drill_fields: [std_drill*]
   }
 
   dimension: is_parked_invoice {
@@ -315,6 +317,7 @@ view: accounts_payable_v2 {
     sql: ${TABLE}.AmountInLocalCurrency_DMBTR ;;
     value_format_name: Greek_Number_Format
     hidden: no
+    drill_fields: [std_drill*]
   }
 
   measure: parked_invoice_amount_global_currency {
@@ -326,6 +329,7 @@ view: accounts_payable_v2 {
     sql: ${TABLE}.AmountInTargetCurrency_DMBTR ;;
     value_format_name: Greek_Number_Format
     hidden: no
+    drill_fields: [std_drill*]
   }
 
   dimension: key_fisc_period {
