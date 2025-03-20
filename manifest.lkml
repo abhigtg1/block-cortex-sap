@@ -1,20 +1,20 @@
 constant: CONNECTION_NAME {
-  value: "abhi-demo-cortex-bq-conn"
+  value: "sap-iac-test-cortex-bq-conn"
   export: override_required
 }
 
 constant: GCP_PROJECT {
-  value: "abhi-demo-cortex"
+  value: "sap-iac-test"
   export: override_required
 }
 
 constant: REPORTING_DATASET {
-  value: "SAP_REPORTING_C6"
+  value: "GS4_REPORTING"
   export: override_required
 }
 
 constant: CLIENT {
-  value: "100"
+  value: "600"
   export: override_required
 }
 
