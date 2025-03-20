@@ -12,7 +12,7 @@ include: "/explores_finance/*.explore"
 
 datagroup: cortex_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
-  max_cache_age: "1 hour"
+  max_cache_age: "10 hours"
 }
 
 persist_with: cortex_default_datagroup
@@ -222,7 +222,15 @@ explore: days_payable_outstanding_v2 {
 
 explore: accounts_payable_v2 {
 
-  sql_always_where: ${accounts_payable_v2.client_mandt} =  '{{ _user_attributes['client_id_rep'] }}';;
+  sql_always_where:
+    ${accounts_payable_v2.client_mandt} =  '{{ _user_attributes['client_id_rep'] }}'
+  ;;
+
+  # sql_always_where:
+    # ${accounts_payable_v2.client_mandt} =  '{{ _user_attributes['client_id_rep'] }}'
+    #     AND ${accounts_payable_v2.name1} IS NOT NULL
+    #     AND ${net_due_raw} IS NOT NULL
+    # ;;
 }
 
 explore: cash_discount_utilization {
