@@ -53,7 +53,7 @@ constant: sign_change_multiplier {
 #} end additional constants
 
 application: explore_assistant {
-  label: "Explore Assistant"
+  label: "Explore Assistant_v6"
   url: "https://localhost:8080/bundle.js"
   # file: "bundle.js"
   entitlements: {
